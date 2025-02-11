@@ -1,0 +1,8 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="100,10 40,180 190,60 10,60 160,180" fill="none" stroke="black" stroke-width="2"/>
+  <polygon points="100,10 40,180 100,100" fill="lightblue"/>
+  <polygon points="100,10 100,100 160,180" fill="lightgreen"/>
+  <polygon points="40,180 100,100 160,180" fill="lightcoral"/>
+  <polygon points="10,60 100,100 40,180" fill="lightyellow"/>
+  <polygon points="190,60 100,100 160,180" fill="lightpink"/>
+</svg>

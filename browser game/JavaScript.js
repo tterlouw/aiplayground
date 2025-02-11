@@ -12,6 +12,8 @@ let rocks = [];
 let dynamites = [];
 const objectWidth = 20;
 const objectHeight = 20;
+let diamondImage = new Image();
+diamondImage.src = 'diamond.svg';
 let diamondCount = 0;
 let gameOver = false;
 let gameInterval;
@@ -72,8 +74,7 @@ function drawPlayer() {
 
 function drawObjects() {
     diamonds.forEach(diamond => {
-        ctx.fillStyle = 'yellow';
-        ctx.fillRect(diamond.x, diamond.y, objectWidth, objectHeight);
+        ctx.drawImage(diamondImage, diamond.x, diamond.y, objectWidth, objectHeight);
     });
     rocks.forEach(rock => {
         ctx.fillStyle = 'gray';
