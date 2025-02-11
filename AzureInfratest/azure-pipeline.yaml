@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  storageAccountName: 'hornetfileupload' # Replace with your storage account name
+  resourceGroupName: 'hornetfileupload' # Replace with your resource group name
+  location: 'westeurope' # Replace with your desired location
+  templateFile: 'AzureInfratest/storage.bicep'
+
+stages:
+- stage: Deploy
+  jobs:
+  - job: DeployStorageAccount
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: 'Deploy Storage Account'
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: 'Visual Studio Enterprise - Theo Terlouw- Genesis' # Replace with your service connection name
+        subscriptionId: 'your-subscription-id' # Replace with your subscription ID
+        resourceGroupName: '$(resourceGroupName)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(templateFile)'
+        overrideParameters: '-storageAccountName $(storageAccountName)'
+        deploymentMode: 'Incremental'
