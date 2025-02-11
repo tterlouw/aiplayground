@@ -15,6 +15,7 @@ const objectHeight = 20;
 let diamondImage = new Image();
 diamondImage.src = 'diamond.svg';
 let diamondCount = 0;
+let level = 1;
 let gameOver = false;
 let gameInterval;
 
@@ -106,6 +107,9 @@ function checkCollisions() {
             playerY < diamond.y + objectHeight &&
             playerY + playerHeight > diamond.y) {
             diamondCount++;
+            if (diamondCount % 5 === 0) {
+                level++;
+            }
             return false; // Remove the diamond
         }
         return true; // Keep the diamond
@@ -145,6 +149,7 @@ function drawScore() {
     ctx.fillStyle = 'black';
     ctx.font = '16px Arial';
     ctx.fillText('Diamonds: ' + diamondCount, 10, 20);
+    ctx.fillText('Level: ' + level, 10, 40); // Display the level
 }
 
 function drawGameOver() {
@@ -163,13 +168,13 @@ function gameLoop() {
     }
 
     // Object creation
-    if (Math.random() < 0.02) {
+    if (Math.random() < 0.02 + (level * 0.005)) { // Increase diamond creation rate with level
         diamonds.push(createDiamond());
     }
-    if (Math.random() < 0.01) {
+    if (Math.random() < 0.01 + (level * 0.002)) { // Increase rock creation rate with level
         rocks.push(createRock());
     }
-    if (Math.random() < 0.01) {
+    if (Math.random() < 0.01 + (level * 0.002)) { // Increase dynamite creation rate with level
         dynamites.push(createDynamite());
     }
 
