@@ -112,3 +112,37 @@ def is_domain_available(word, whois_delay=5):
 
 
 5. User Interaction Flow: The script stops and asks for confirmation (save = input(...)) every time it finds a potential word. If the goal is to find multiple words in one run, this interaction breaks the flow. Consider collecting all found words and presenting them at the end, or add a command-line flag to disable this interactive prompt.
+
+
+First, you need to have Python installed on your system. Since the command wasn't found, you'll need to:
+
+cd d:\GithubRepos\aiplayground\domainnamefinder && pip install -r requirements.txt
+
+Either install Python from the official Python website if you haven't already
+Or use the Microsoft Store to install Python as suggested by the error message
+After installing Python, you need to install the dependencies listed in the requirements.txt file:
+
+cd d:\GithubRepos\aiplayground\domainnamefinder
+pip install -r requirements.txt
+
+cd d:\GithubRepos\aiplayground\domainnamefinder
+pip install -r requirements.txt
+Once the dependencies are installed, you can run the script with:
+
+python domain_finder.py
+You can also customize the script execution with several command-line options:
+
+python domain_finder.py
+
+python domain_finder.py --attempts 100 --google-delay 30 --whois-delay 2 --batch-mode
+The available options are:
+
+python domain_finder.py --attempts 100 --google-delay 30 --whois-delay 2 --batch-mode
+
+--attempts: Maximum number of words to try (default: 50)
+--google-delay: Delay in seconds between Google searches (default: 60)
+--whois-delay: Delay in seconds between WHOIS lookups (default: 5)
+--batch-mode: Enable batch mode to skip user prompts (just add this flag to enable)
+For example, to search for 20 domain names with reduced delays and automated batch processing:
+
+python domain_finder.py --attempts 20 --google-delay 30 --whois-delay 2 --batch-mode
