@@ -1,0 +1,6 @@
+# Required for making HTTP requests to check domain availability
+requests==2.31.0
+# Used for parsing HTML content (needed for Google search results)
+beautifulsoup4==4.12.2
+# Python wrapper for WHOIS to check domain registration status
+python-whois==0.8.0
