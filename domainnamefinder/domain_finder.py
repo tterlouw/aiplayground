@@ -3,6 +3,7 @@ import requests
 import time
 import whois
 import argparse
+import os
 from datetime import datetime
 
 # Define consonant and vowel groups for more readable combinations
@@ -24,8 +25,6 @@ def generate_word():
     ]
     
     word = random.choice(patterns)()
-    # Removed unnecessary while loop since all patterns produce 5-letter words
-    
     return word.lower()
 
 def has_google_results(word, google_delay=10):
@@ -39,7 +38,10 @@ def has_google_results(word, google_delay=10):
     Returns:
         bool: True if the word has Google results, False if no results found, 
               False for uncertainty (errors, non-200 status codes)
+        str: The result message describing what was found
     """
+    result_message = ""
+    
     try:
         current_time = datetime.now().strftime("%H:%M:%S")
         print(f"[{current_time}] Checking Google for: \"{word}\"... ", end="", flush=True)
@@ -59,18 +61,22 @@ def has_google_results(word, google_delay=10):
             
             if no_results:
                 print("No results found! ✓")
-                return False
+                result_message = "GOOGLE: No results found"
+                return False, result_message
             else:
                 print("Has results ✗")
-                return True
+                result_message = "GOOGLE: Has results"
+                return True, result_message
         else:
             # Handle non-200 status codes
             print(f"Unexpected status code: {response.status_code} ✗")
-            return False  # Consider uncertainty as no results
+            result_message = f"GOOGLE: Error - Status code {response.status_code}"
+            return False, result_message  # Consider uncertainty as no results
             
     except Exception as e:
         print(f"Error checking Google: {str(e)} ✗")
-        return False  # Consider uncertainty as no results
+        result_message = f"GOOGLE: Error - {str(e)}"
+        return False, result_message  # Consider uncertainty as no results
     finally:
         # Ensure delay happens after every attempt, regardless of outcome
         print(f"Waiting {google_delay} seconds before next Google search...")
@@ -86,9 +92,11 @@ def is_domain_available(word, whois_delay=5):
         
     Returns:
         bool: True if the domain is likely available, False otherwise
+        str: The result message describing the domain availability
     """
     domain = f"{word}.com"
     available = False  # Default to not available
+    result_message = ""
     
     try:
         current_time = datetime.now().strftime("%H:%M:%S")
@@ -100,21 +108,48 @@ def is_domain_available(word, whois_delay=5):
         if w is None or not w.creation_date:
             print("Available! ✓")
             available = True
+            result_message = "DOMAIN: Available"
         else:
             print("Taken ✗")
             available = False
+            result_message = "DOMAIN: Taken"
             
     except Exception as e:
         # Treat exceptions as potentially available, but log the error
         print(f"Potentially Available! (Exception: {str(e)}) ✓")
         available = True  # Or False if you want to be more conservative
+        result_message = f"DOMAIN: Potentially Available (Error: {str(e)})"
         
     finally:
         # Delay after each check
         print(f"Waiting {whois_delay} seconds before next WHOIS lookup...")
         time.sleep(whois_delay)
         
-    return available
+    return available, result_message
+
+def write_to_file(word, domain_result, google_result):
+    """
+    Write the results of a domain check to a text file.
+    
+    Args:
+        word (str): The 5-letter word checked
+        domain_result (str): The result of the domain availability check
+        google_result (str): The result of the Google search
+    """
+    timestamp = datetime.now().strftime("%Y%m%d")
+    filename = f"domain_results_{timestamp}.txt"
+    
+    # Create timestamp for this specific entry
+    entry_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with open(filename, 'a', encoding='utf-8') as f:
+        f.write(f"Date/Time: {entry_time}\n")
+        f.write(f"Word: {word}\n")
+        f.write(f"{domain_result}\n")
+        f.write(f"{google_result}\n")
+        f.write("-" * 40 + "\n")
+    
+    print(f"Results for '{word}' written to {filename}")
 
 def find_unique_word(max_attempts=100, google_delay=20, whois_delay=5, batch_mode=False):
     """
@@ -137,6 +172,17 @@ def find_unique_word(max_attempts=100, google_delay=20, whois_delay=5, batch_mod
     
     found_words = []
     
+    # Create results directory if it doesn't exist
+    timestamp = datetime.now().strftime("%Y%m%d")
+    results_file = f"domain_results_{timestamp}.txt"
+    
+    # Add header to the file if it's new
+    if not os.path.exists(results_file):
+        with open(results_file, 'w', encoding='utf-8') as f:
+            f.write("UNIQUE DOMAIN NAME FINDER RESULTS\n")
+            f.write(f"Generated on: {datetime.now().strftime('%Y-%m-%d')}\n")
+            f.write("=" * 40 + "\n\n")
+    
     for i in range(max_attempts):
         current_time = datetime.now().strftime("%H:%M:%S")
         print(f"\n[{current_time}] Attempt {i+1}/{max_attempts}")
@@ -146,9 +192,16 @@ def find_unique_word(max_attempts=100, google_delay=20, whois_delay=5, batch_mod
         print(f"Generated word: {word}")
         
         # Check domain availability first
-        if is_domain_available(word, whois_delay):
+        domain_available, domain_result = is_domain_available(word, whois_delay)
+        
+        if domain_available:
             # Then check Google results
-            if not has_google_results(word, google_delay):
+            has_results, google_result = has_google_results(word, google_delay)
+            
+            # Write results to file regardless of outcome
+            write_to_file(word, domain_result, google_result)
+            
+            if not has_results:
                 found_words.append(word)
                 print(f"\n✅ FOUND UNIQUE WORD: {word}")
                 print(f"Domain {word}.com appears to be available!")
@@ -158,6 +211,9 @@ def find_unique_word(max_attempts=100, google_delay=20, whois_delay=5, batch_mod
                     save = input("\nWould you like to save this word and continue searching? (y/n): ")
                     if save.lower() != 'y':
                         return found_words
+        else:
+            # If domain is not available, still log the result
+            write_to_file(word, domain_result, "GOOGLE: Check skipped - Domain not available")
     
     return found_words
 
@@ -180,6 +236,9 @@ def main():
         batch_mode=args.batch_mode
     )
     
+    timestamp = datetime.now().strftime("%Y%m%d")
+    results_file = f"domain_results_{timestamp}.txt"
+    
     if results:
         print("\n" + "="*60)
         print("RESULTS SUMMARY".center(60))
@@ -187,9 +246,22 @@ def main():
         print(f"Found {len(results)} unique domain names:")
         for i, word in enumerate(results, 1):
             print(f"{i}. {word}.com")
+        
+        # Add summary to the results file
+        with open(results_file, 'a', encoding='utf-8') as f:
+            f.write("\nSUMMARY OF SUCCESSFUL DOMAINS\n")
+            f.write("=" * 30 + "\n")
+            for word in results:
+                f.write(f"✅ {word}.com\n")
+        
+        print(f"\nDetailed results have been saved to {results_file}")
     else:
         print("\n❌ Could not find any suitable words within the attempt limit.")
         print("Try running the script again or increasing --attempts.")
+        
+        # Add no results message to the file
+        with open(results_file, 'a', encoding='utf-8') as f:
+            f.write("\nNo suitable domains were found in this session.\n")
 
 if __name__ == "__main__":
     main()
