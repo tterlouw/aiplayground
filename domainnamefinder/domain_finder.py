@@ -116,7 +116,7 @@ def is_domain_available(word, whois_delay=5):
         
     return available
 
-def find_unique_word(max_attempts=100, google_delay=60, whois_delay=5, batch_mode=False):
+def find_unique_word(max_attempts=100, google_delay=20, whois_delay=5, batch_mode=False):
     """
     Find a unique 5-letter word with no Google results that's available as a domain.
     
@@ -145,10 +145,10 @@ def find_unique_word(max_attempts=100, google_delay=60, whois_delay=5, batch_mod
         word = generate_word()
         print(f"Generated word: {word}")
         
-        # Check Google results
-        if not has_google_results(word, google_delay):
-            # Check domain availability
-            if is_domain_available(word, whois_delay):
+        # Check domain availability first
+        if is_domain_available(word, whois_delay):
+            # Then check Google results
+            if not has_google_results(word, google_delay):
                 found_words.append(word)
                 print(f"\n✅ FOUND UNIQUE WORD: {word}")
                 print(f"Domain {word}.com appears to be available!")
@@ -165,8 +165,8 @@ def main():
     parser = argparse.ArgumentParser(description="Find unique 5-letter domain names")
     parser.add_argument('--attempts', type=int, default=50, 
                         help='Maximum number of words to check (default: 50)')
-    parser.add_argument('--google-delay', type=int, default=60, 
-                        help='Delay in seconds between Google searches (default: 60)')
+    parser.add_argument('--google-delay', type=int, default=20, 
+                        help='Delay in seconds between Google searches (default: 20)')
     parser.add_argument('--whois-delay', type=int, default=5, 
                         help='Delay in seconds between WHOIS lookups (default: 5)')
     parser.add_argument('--batch-mode', action='store_true', 
