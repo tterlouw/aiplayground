@@ -205,12 +205,8 @@ def find_unique_word(max_attempts=100, google_delay=20, whois_delay=5, batch_mod
                 found_words.append(word)
                 print(f"\n✅ FOUND UNIQUE WORD: {word}")
                 print(f"Domain {word}.com appears to be available!")
-                
-                # Only prompt if not in batch mode
-                if not batch_mode:
-                    save = input("\nWould you like to save this word and continue searching? (y/n): ")
-                    if save.lower() != 'y':
-                        return found_words
+                print(f"Automatically saving this word and continuing search...")
+                # Removed the user prompt - all words are automatically saved now
         else:
             # If domain is not available, still log the result
             write_to_file(word, domain_result, "GOOGLE: Check skipped - Domain not available")
