@@ -1,0 +1,31 @@
+{
+  "name": "topdesk-tool-v2",
+  "version": "1.0.0",
+  "description": "TOPdesk Client Tool with enhanced Microsoft authentication handling using Stagehand",
+  "main": "topdesk-client.js",
+  "bin": {
+    "topdesk": "./topdesk-client.js"
+  },
+  "scripts": {
+    "incidents": "node topdesk-client.js my-incidents",
+    "changes": "node topdesk-client.js my-changes",
+    "check-updates": "node topdesk-client.js check-updates",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "topdesk",
+    "stagehand",
+    "browser-automation",
+    "incident-management"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^10.0.0",
+    "stagehand": "^1.0.1",
+    "yargs-parser": "^21.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
