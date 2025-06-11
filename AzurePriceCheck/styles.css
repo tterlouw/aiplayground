@@ -1,0 +1,382 @@
+/* Azure VM Price Comparison Styles */
+:root {
+    --azure-blue: #0078d4;
+    --azure-light-blue: #40e0d0;
+    --azure-dark-blue: #106ebe;
+    --success-green: #107c10;
+    --warning-orange: #ff8c00;
+    --error-red: #d13438;
+    --neutral-light: #f8f9fa;
+    --neutral-medium: #e1e5e9;
+    --neutral-dark: #323130;
+    --white: #ffffff;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--neutral-light) 0%, var(--neutral-medium) 100%);
+    color: var(--neutral-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px 0;
+    background: linear-gradient(135deg, var(--azure-blue) 0%, var(--azure-dark-blue) 100%);
+    color: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.filters {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 150px;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: var(--neutral-dark);
+    font-size: 0.9rem;
+}
+
+.filter-group select {
+    padding: 10px 12px;
+    border: 2px solid var(--neutral-medium);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--white);
+    transition: border-color 0.3s ease;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--azure-blue);
+}
+
+.btn-primary {
+    background: var(--azure-blue);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    height: fit-content;
+}
+
+.btn-primary:hover {
+    background: var(--azure-dark-blue);
+    transform: translateY(-2px);
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: var(--azure-blue);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.metric {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--success-green);
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: var(--neutral-dark);
+    opacity: 0.8;
+}
+
+.price-table-container {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+
+.price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.price-table th {
+    background: var(--azure-blue);
+    color: var(--white);
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.price-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--neutral-medium);
+    transition: background-color 0.2s ease;
+}
+
+.price-table tr:hover td {
+    background: var(--neutral-light);
+}
+
+.price-table tr:nth-child(even) td {
+    background: rgba(0, 120, 212, 0.02);
+}
+
+.vm-size {
+    font-weight: 600;
+    color: var(--azure-blue);
+}
+
+.savings-positive {
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.savings-neutral {
+    color: var(--neutral-dark);
+}
+
+.chart-container {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.chart-container h3 {
+    color: var(--azure-blue);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+#price-chart {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    color: var(--neutral-dark);
+    opacity: 0.8;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+.api-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.api-status.live {
+    background: var(--success-green);
+    color: var(--white);
+}
+
+.api-status.fallback {
+    background: var(--warning-orange);
+    color: var(--white);
+}
+
+.api-status.loading {
+    background: var(--azure-blue);
+    color: var(--white);
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--azure-blue);
+    font-size: 1.1rem;
+}
+
+.error {
+    background: var(--error-red);
+    color: var(--white);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .filters {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter-group {
+        min-width: 100%;
+    }
+    
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .price-table {
+        font-size: 0.8rem;
+    }
+    
+    .price-table th,
+    .price-table td {
+        padding: 8px 6px;
+    }
+    
+    .metric {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 20px 0;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .metric {
+        font-size: 2rem;
+    }
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading-animation {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Accessibility improvements */
+.btn-primary:focus,
+.filter-group select:focus {
+    outline: 3px solid var(--azure-light-blue);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .filters,
+    .chart-container {
+        display: none;
+    }
+    
+    .price-table {
+        font-size: 0.7rem;
+    }
+}

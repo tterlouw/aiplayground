@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure VM Price Comparison - On-Demand vs Reserved Instances</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Azure VM Price Comparison</h1>
+            <p class="subtitle">Compare On-Demand vs Reserved Instance pricing across all Azure VM tiers</p>
+        </header>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="region-select">Region:</label>
+                <select id="region-select">
+                    <option value="us-east">East US</option>
+                    <option value="us-west">West US</option>
+                    <option value="eu-west">West Europe</option>
+                    <option value="asia-southeast">Southeast Asia</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="os-select">Operating System:</label>
+                <select id="os-select">
+                    <option value="linux">Linux</option>
+                    <option value="windows">Windows</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="tier-select">VM Tier:</label>
+                <select id="tier-select">
+                    <option value="all">All Tiers</option>
+                    <option value="general">General Purpose</option>
+                    <option value="compute">Compute Optimized</option>
+                    <option value="memory">Memory Optimized</option>
+                    <option value="storage">Storage Optimized</option>
+                    <option value="gpu">GPU</option>
+                </select>
+            </div>
+
+            <button id="refresh-prices" class="btn-primary">Refresh Prices</button>
+        </div>
+
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Average Savings</h3>
+                <div class="metric" id="avg-savings">38%</div>
+                <p>with 1-year reserved instances</p>
+            </div>
+            <div class="card">
+                <h3>Best Deal</h3>
+                <div class="metric" id="best-deal">72%</div>
+                <p>savings on 3-year reservations</p>
+            </div>
+            <div class="card">
+                <h3>VM Types</h3>
+                <div class="metric" id="vm-count">45+</div>
+                <p>different sizes compared</p>
+            </div>
+        </div>
+
+        <div class="price-table-container">
+            <table id="price-table" class="price-table">
+                <thead>
+                    <tr>
+                        <th>VM Size</th>
+                        <th>vCPUs</th>
+                        <th>RAM (GB)</th>
+                        <th>On-Demand ($/hour)</th>
+                        <th>1-Year Reserved ($/hour)</th>
+                        <th>3-Year Reserved ($/hour)</th>
+                        <th>1-Year Savings</th>
+                        <th>3-Year Savings</th>
+                    </tr>
+                </thead>
+                <tbody id="price-table-body">
+                    <!-- Table content will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-container">
+            <h3>Price Comparison Chart</h3>
+            <canvas id="price-chart" width="800" height="400"></canvas>
+        </div>        <footer>
+            <div class="api-status">
+                <span id="api-status-indicator">🔄</span>
+                <span id="api-status-text">Checking API status...</span>
+            </div>
+            <p>Prices are loaded from Azure Retail Prices API when available, with fallback to estimated data.</p>
+            <p>Last updated: <span id="last-updated"></span></p>
+        </footer>
+    </div>
+
+    <script src="app-api.js"></script>
+</body>
+</html>
