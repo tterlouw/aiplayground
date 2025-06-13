@@ -1,0 +1,62 @@
+{
+  "name": "Döner Orders - Group Food Ordering",
+  "short_name": "Döner Orders",
+  "description": "Collaborative food ordering for office lunch - Döner, Falafel, Patat and more",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#006A6B",
+  "theme_color": "#006A6B",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23006A6B'/><text x='50' y='60' text-anchor='middle' font-size='40' fill='white'>🍽️</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23006A6B'/><text x='50' y='60' text-anchor='middle' font-size='40' fill='white'>🍽️</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 844'><rect width='390' height='844' fill='%23F7FAFA'/><rect x='0' y='0' width='390' height='64' fill='%23006A6B'/><text x='20' y='40' font-size='18' fill='white'>🍽️ Döner Orders</text></svg>",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "Döner Orders main screen"
+    }
+  ],
+  "categories": ["food", "productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "View Orders",
+      "short_name": "Orders",
+      "description": "View current group orders",
+      "url": "/#orders",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='60' text-anchor='middle' font-size='40'>📋</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Admin Panel",
+      "short_name": "Admin",
+      "description": "Send SMS and manage orders",
+      "url": "/#admin",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='60' text-anchor='middle' font-size='40'>⚙️</text></svg>",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

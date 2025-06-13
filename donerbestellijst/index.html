@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍽️ Döner Orders - Group Food Ordering</title>
+    <meta name="description" content="Collaborative food ordering for office lunch - Döner, Falafel, Patat and more">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#006A6B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+    <!-- Material Design 3 App Bar -->
+    <header class="md-app-bar">
+        <h1 class="md-app-bar__title">🍽️ Döner Orders</h1>
+        <button class="md-icon-button" id="adminButton" aria-label="Admin panel">
+            <span class="material-icon">⚙️</span>
+        </button>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <!-- Name Input Section -->
+        <section class="name-section">
+            <div class="md-card">
+                <div class="md-text-field" id="nameField">
+                    <input 
+                        type="text" 
+                        class="md-text-field__input" 
+                        id="customerName" 
+                        placeholder=" "
+                        autocomplete="given-name"
+                        required
+                    >
+                    <label class="md-text-field__label" for="customerName">Your Name</label>
+                </div>
+                <p class="helper-text">Enter your name to start ordering</p>
+            </div>
+        </section>
+
+        <!-- Status Card -->
+        <section class="status-section">
+            <div class="md-card status-card">
+                <div class="status-info">
+                    <div class="time-status">
+                        <span class="status-icon">⏰</span>
+                        <span class="status-text" id="orderStatus">Open until 11:15</span>
+                    </div>
+                    <div class="order-count">
+                        <span class="status-icon">👥</span>
+                        <span class="status-text" id="orderCount">0 orders</span>
+                    </div>
+                </div>
+                <div class="countdown-timer" id="countdownTimer"></div>
+            </div>
+        </section>
+
+        <!-- Category Navigation -->
+        <section class="category-section">
+            <div class="category-tabs" role="tablist">
+                <button class="category-tab active" role="tab" data-category="all" aria-selected="true">
+                    <span class="tab-icon">🍽️</span>
+                    <span class="tab-label">All</span>
+                </button>
+                <button class="category-tab" role="tab" data-category="fries" aria-selected="false">
+                    <span class="tab-icon">🍟</span>
+                    <span class="tab-label">Fries</span>
+                </button>
+                <button class="category-tab" role="tab" data-category="doner" aria-selected="false">
+                    <span class="tab-icon">🥙</span>
+                    <span class="tab-label">Döner</span>
+                </button>
+                <button class="category-tab" role="tab" data-category="wraps" aria-selected="false">
+                    <span class="tab-icon">🌯</span>
+                    <span class="tab-label">Wraps</span>
+                </button>
+                <button class="category-tab" role="tab" data-category="pizza" aria-selected="false">
+                    <span class="tab-icon">🍕</span>
+                    <span class="tab-label">Pizza</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Product Grid -->
+        <section class="products-section">
+            <div class="product-grid" id="productGrid" role="main">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Current Orders Section -->
+        <section class="orders-section">
+            <div class="md-card orders-card">
+                <div class="orders-header">
+                    <h2 class="orders-title">📋 Current Orders</h2>
+                    <button class="toggle-orders-btn" id="toggleOrders" aria-expanded="true">
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                </div>
+                <div class="orders-content" id="ordersContent">
+                    <div class="empty-orders" id="emptyOrders">
+                        <p>No orders yet. Be the first to order! 🍽️</p>
+                    </div>
+                    <div class="orders-list" id="ordersList"></div>
+                    <div class="orders-summary" id="ordersSummary"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button for SMS -->
+    <button class="md-fab" id="sendSmsButton" aria-label="Send order via SMS" disabled>
+        <span class="fab-icon">📱</span>
+        <span class="fab-label">Send SMS</span>
+    </button>
+
+    <!-- Admin Panel Modal -->
+    <div class="modal-overlay" id="adminModal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-labelledby="adminTitle">
+            <div class="modal-header">
+                <h2 id="adminTitle">⚙️ Admin Panel</h2>
+                <button class="modal-close" id="closeAdmin" aria-label="Close admin panel">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-section">
+                    <h3>📊 Order Summary</h3>
+                    <div class="admin-stats" id="adminStats"></div>
+                </div>
+                <div class="admin-section">
+                    <h3>📱 SMS Settings</h3>
+                    <div class="md-text-field">
+                        <input type="tel" class="md-text-field__input" id="phoneNumber" placeholder=" ">
+                        <label class="md-text-field__label">Restaurant Phone Number</label>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="md-button md-button--filled" id="sendSmsAdmin">Send SMS</button>
+                        <button class="md-button md-button--outlined" id="resetOrders">Reset Orders</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snackbar for notifications -->
+    <div class="snackbar" id="snackbar" aria-live="polite"></div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Processing your order...</p>
+    </div>    <!-- Scripts -->
+    <script src="menu-data.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

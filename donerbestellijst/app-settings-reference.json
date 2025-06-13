@@ -1,0 +1,7 @@
+{
+  "ACS_CONNECTION_STRING": "endpoint=https://YOUR-RESOURCE-NAME.communication.azure.com/;accesskey=YOUR-ACCESS-KEY",
+  "RESTAURANT_PHONE_NUMBER": "+31612345678",
+  "ADMIN_PASSWORD": "your-secure-admin-password",
+  "CORS_ORIGINS": "*",
+  "NODE_ENV": "production"
+}
