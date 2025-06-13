@@ -46,10 +46,13 @@ app.use(express.static('.'));
 
 // Azure Communication Services SMS Client
 let smsClient;
-if (process.env.ACS_CONNECTION_STRING) {
-  smsClient = new SmsClient(process.env.ACS_CONNECTION_STRING);
+const connectionString = process.env.ACS_CONNECTION_STRING || "endpoint=https://donerbestelling.europe.communication.azure.com/;accesskey=E5gLyvZj65ubvZmA1q023ra3ovlvCOftNZiVCO6Ouzo7AUddh7zmJQQJ99BFACULyCpkxZ0VAAAAAZCSZqLj";
+
+if (connectionString && connectionString.includes('endpoint=')) {
+  smsClient = new SmsClient(connectionString);
+  console.log('✅ Azure Communication Services SMS client initialized');
 } else {
-  console.warn('ACS_CONNECTION_STRING not found. SMS functionality will be simulated.');
+  console.warn('⚠️ ACS_CONNECTION_STRING not found. SMS functionality will be simulated.');
 }
 
 // SMS API endpoint
@@ -80,41 +83,54 @@ app.post('/api/sms-sender', async (req, res) => {
         success: false,
         error: 'Invalid phone number format. Use international format (+31612345678)'
       });
-    }
-
-    // Send SMS
+    }    // Send SMS
     if (smsClient) {
-      const sendResults = await smsClient.send({
-        from: process.env.ACS_PHONE_NUMBER || '+18555551234', // Use your ACS phone number
-        to: [phoneNumber],
-        message: message
-      });
-
-      const result = sendResults[0];
-      if (result.successful) {
-        res.json({
-          success: true,
-          messageId: result.messageId,
-          message: 'SMS sent successfully'
+      try {
+        const sendResults = await smsClient.send({
+          from: process.env.ACS_PHONE_NUMBER || '+18555551234', // Use your ACS phone number or default test number
+          to: [phoneNumber],
+          message: message
         });
-      } else {
-        console.error('SMS send failed:', result.errorMessage);
+
+        const result = sendResults[0];
+        if (result.successful) {
+          console.log('✅ SMS sent successfully:', {
+            to: phoneNumber,
+            messageId: result.messageId,
+            timestamp: new Date().toISOString()
+          });
+          
+          res.json({
+            success: true,
+            messageId: result.messageId,
+            message: 'SMS sent successfully'
+          });
+        } else {
+          console.error('❌ SMS send failed:', result.errorMessage);
+          res.status(500).json({
+            success: false,
+            error: 'Failed to send SMS: ' + result.errorMessage
+          });
+        }
+      } catch (smsError) {
+        console.error('❌ SMS API error:', smsError);
         res.status(500).json({
           success: false,
-          error: 'Failed to send SMS: ' + result.errorMessage
+          error: 'SMS service error: ' + smsError.message
         });
       }
     } else {
       // Simulation mode
-      console.log('=== SMS SIMULATION ===');
+      console.log('📱 === SMS SIMULATION ===');
       console.log('To:', phoneNumber);
       console.log('Message:', message);
-      console.log('=====================');
+      console.log('Timestamp:', new Date().toISOString());
+      console.log('========================');
       
       res.json({
         success: true,
         messageId: 'sim-' + Date.now(),
-        message: 'SMS simulated successfully (no actual SMS sent)'
+        message: 'SMS simulated successfully (no actual SMS sent - ACS not configured)'
       });
     }
 

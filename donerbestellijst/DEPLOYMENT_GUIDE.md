@@ -45,15 +45,18 @@
    - Add these **New application settings**:
 
    ```
-   ACS_CONNECTION_STRING = [Your Communication Services connection string]
-   RESTAURANT_PHONE_NUMBER = +31612345678
+   ACS_CONNECTION_STRING = endpoint=https://donerbestelling.europe.communication.azure.com/;accesskey=E5gLyvZj65ubvZmA1q023ra3ovlvCOftNZiVCO6Ouzo7AUddh7zmJQQJ99BFACULyCpkxZ0VAAAAAZCSZqLj
+   RESTAURANT_PHONE_NUMBER = +0031646322061
    ADMIN_PASSWORD = [Choose a secure password]
    CORS_ORIGINS = *
    NODE_ENV = production
    WEBSITE_NODE_DEFAULT_VERSION = 22-lts
+   ACS_PHONE_NUMBER = [Your Azure Communication Services phone number]
    ```
 
    - Click **Save**
+   
+   **Note**: The connection string above is your actual ACS connection string. The `ACS_PHONE_NUMBER` should be set to a phone number you've purchased through Azure Communication Services, or you can use test numbers provided by Azure.
 
 ### 📁 Step 3: Deploy Website Files
 
@@ -125,8 +128,9 @@ Make sure these files are in your web root (`/site/wwwroot/`):
 ### 📱 SMS Testing
 
 **Test Phone Numbers** (no charge):
-- Use your own phone number for testing
+- Use your test number: `+0031646322061` for testing
 - Azure Communication Services provides test numbers in some regions
+- Test with your own phone number to verify SMS delivery
 
 **Message Format:**
 ```

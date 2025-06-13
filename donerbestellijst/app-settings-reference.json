@@ -1,7 +1,8 @@
 {
-  "ACS_CONNECTION_STRING": "endpoint=https://YOUR-RESOURCE-NAME.communication.azure.com/;accesskey=YOUR-ACCESS-KEY",
-  "RESTAURANT_PHONE_NUMBER": "+31612345678",
+  "ACS_CONNECTION_STRING": "endpoint=https://donerbestelling.europe.communication.azure.com/;accesskey=E5gLyvZj65ubvZmA1q023ra3ovlvCOftNZiVCO6Ouzo7AUddh7zmJQQJ99BFACULyCpkxZ0VAAAAAZCSZqLj",
+  "RESTAURANT_PHONE_NUMBER": "+0031646322061",
   "ADMIN_PASSWORD": "your-secure-admin-password",
   "CORS_ORIGINS": "*",
-  "NODE_ENV": "production"
+  "NODE_ENV": "production",
+  "ACS_PHONE_NUMBER": "[Your Azure Communication Services phone number or test number]"
 }
