@@ -69,8 +69,8 @@
 1. Go to Web App → Deployment Center → Local Git
 2. Follow the git commands to push your code
 
-**Option C: ZIP Deployment**
-1. Create a ZIP file with all website files:
+**Option C: ZIP Deployment (Recommended)**
+1. Create a ZIP file with these website files (**DO NOT include node_modules**):
    - index.html
    - styles.css
    - script.js
@@ -79,11 +79,14 @@
    - package.json
    - server.js
    - web.config
+   - sw.js
 
 2. Use Azure CLI or Kudu to deploy:
    ```bash
    az webapp deployment source config-zip --resource-group <resource-group> --name <app-name> --src <zip-file-path>
    ```
+
+**Important:** Azure App Service will automatically run `npm install` based on your `package.json` file during deployment. You should **NEVER** upload the `node_modules` folder.
 
 ### 🔧 Step 4: Test Deployment
 
